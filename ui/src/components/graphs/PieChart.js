@@ -20,27 +20,27 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 };
 
 export default class PieGraph extends Component {
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 
-    render() {
-      return (
-        <PieChart width={1000} height={1000} onMouseEnter={this.onPieEnter}>
-          <Pie
-          data={this.props.data}
-          cx={300} 
-          cy={200} 
-          labelLine={false}
-          label={renderCustomizedLabel}
-          outerRadius={150} 
-          fill="#8884d8"
-          >
-          {
-            data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
-          }
-          </Pie>
-        </PieChart>      
-      );
-    }
+  render() {
+    return (
+      <PieChart width={1000} height={1000} onMouseEnter={this.onPieEnter}>
+        <Pie
+        data={data}
+        cx={300} 
+        cy={200} 
+        labelLine={false}
+        label={renderCustomizedLabel}
+        outerRadius={150} 
+        fill="#8884d8"
+        >
+        {
+          data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)
+        }
+        </Pie>
+      </PieChart>
+    );
+  }
 }
