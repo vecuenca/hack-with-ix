@@ -15,6 +15,6 @@ export default class LineGraph extends Component {
           <Tooltip/>
           <Line type='monotone' dataKey={this.props.dataKey} stroke='#8884d8' fill='#8884d8' />
       </LineChart>
-          )
+    )
   }
 }
