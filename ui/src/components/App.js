@@ -12,10 +12,13 @@ export default class App extends Component {
     super()
   }
 
+
+
   render () {
     return (
       <Center>
         <h1>Hello there! Time to get started.</h1>
+        <button onClick={this.props.fetchServers}>hai</button>
       </Center>
     )
   }
