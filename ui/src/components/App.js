@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 
 import { Center } from 'components/Flex'
 
+import TreeMap from './TreeMap'
 
 export default class App extends Component {
   constructor () {
@@ -19,6 +20,7 @@ export default class App extends Component {
       <Center>
         <h1>Hello there! Time to get started.</h1>
         <button onClick={this.props.fetchServers}>hai</button>
+        <TreeMap />
       </Center>
     )
   }
