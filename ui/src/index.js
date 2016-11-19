@@ -7,6 +7,10 @@ import App from 'components/App'
 import Data from './containers/Data'
 import Servers from 'components/Servers'
 
+// Containers
+import ImpressionAnalytics from './containers/ImpressionAnalytics'
+import ServerAnalytics from './containers/ServerAnalytics'
+
 let routes =
   <Router
     history = { createBrowserHistory() }
@@ -18,6 +22,8 @@ let routes =
         path = "servers"
         component = { Servers }
       />
+      <Route path="impressions" component={ImpressionAnalytics}></Route>
+      <Route path="server" component={ServerAnalytics}></Route>
 
     </Route>
 
