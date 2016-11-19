@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 
 import { Center } from 'components/Flex'
 
+import TreeMap from './TreeMap'
 
 export default class App extends Component {
   constructor () {
@@ -16,6 +17,7 @@ export default class App extends Component {
     return (
       <Center>
         <h1>Hello there! Time to get started.</h1>
+        <TreeMap />
       </Center>
     )
   }
