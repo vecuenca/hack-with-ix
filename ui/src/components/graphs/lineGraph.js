@@ -7,7 +7,7 @@ import { LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Line, Brush } from 're
 export default class LineGraph extends Component {
   render() {
     return (
-      <LineChart width={this.props.width} height={this.props.height} data={data} syncId={this.props.syncId}
+      <LineChart width={this.props.width} height={this.props.height} data={this.props.data} syncId={this.props.syncId}
           margin={{top: 10, right: 30, left: 0, bottom: 0}}>
           <XAxis dataKey={this.props.XAxis}/>
           <YAxis/>
