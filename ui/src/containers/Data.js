@@ -36,6 +36,8 @@ class Data extends Component {
                 this.setState({
                     servers: response.data
                 })
+
+                return response.data
             })
     }
 
@@ -48,6 +50,8 @@ class Data extends Component {
                         [dc]: response.data
                     }
                 })
+
+                return response.data
             })
     }
 
@@ -63,6 +67,8 @@ class Data extends Component {
                         }
                     }
                 })
+
+                return response.data
             })
     }
     
