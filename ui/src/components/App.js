@@ -49,10 +49,13 @@ class App extends Component {
 
   getDataCenterSelector() {
     return (
-      <div style={{ display: 'flex', alignItems: 'center' }} >
-        <FlatButton primary={this.state.datacenter === "NA"} label="NA" onClick={this.handleDataCenterChange.bind(this, "NA")}></FlatButton>
-        <FlatButton primary={this.state.datacenter === "EU"} label="EU" onClick={this.handleDataCenterChange.bind(this, "EU")}></FlatButton>
-        <FlatButton primary={this.state.datacenter === "AS"} label="AS" onClick={this.handleDataCenterChange.bind(this, "AS")}></FlatButton>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <p>Data Center:</p>      
+        <div style={{ display: 'flex', alignItems: 'center' }} >
+          <FlatButton primary={this.state.datacenter === "NA"} label="NA" onClick={this.handleDataCenterChange.bind(this, "NA")}></FlatButton>
+          <FlatButton primary={this.state.datacenter === "EU"} label="EU" onClick={this.handleDataCenterChange.bind(this, "EU")}></FlatButton>
+          <FlatButton primary={this.state.datacenter === "AS"} label="AS" onClick={this.handleDataCenterChange.bind(this, "AS")}></FlatButton>
+        </div>
       </div>
     )
   }
