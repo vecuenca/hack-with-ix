@@ -150,60 +150,34 @@ class ImpressionAnalytics extends Component {
     // }, [])
   }
 
-  aggregateByTimeUnit(timeUnit, impressions) {
+  formatTimestamp(timeUnit, impressions) {
     if (impressions.length === 0) return []
 
-    let timeSliceDuration = 10,
-      formatter = ''
+    let formatter = ''
 
     switch(timeUnit) {
       case TimeUnits.MINUTES:
-        timeSliceDuration = 10
         formatter = 'MMM Do HH:mm '
         break;
       case TimeUnits.HOUR:
-        timeSliceDuration = 60
         formatter = 'MMM Do HH:mm'
         break;
       case TimeUnits.DAY:
-        timeSliceDuration = 60 * 24
         formatter = 'MMM Do'
         break;
       case TimeUnits.WEEK:
         formatter = 'MMM Do'
-        timeSliceDuration = 60 * 24 * 7
         break;
       default:
         console.error("Uh oh... what kind of time unit did you pass in... I don't recognize it")
     }
-    timeSliceDuration = timeSliceDuration * 60 * 1000 // Translate into ms
-
-    // Grab first timestamp
-    const firstTimeStamp = _.first(impressions).timestamp
-
-    let payload = [impressions[0]],
-      lastTimestamp = firstTimeStamp
-
-    for (var i = 1; i < impressions.length -1; i++) {
-      const currentTimeStamp = impressions[i].timestamp
-
-      if (currentTimeStamp - lastTimestamp > timeSliceDuration) {
-        lastTimestamp = currentTimeStamp
-        payload.push({
-          ...impressions[i]
-        })
-      } else {
-        let lastImpression = _.last(payload).impressions
-
-        payload[payload.length - 1] = {
-          ...payload[payload.length - 1],
-          impressions: payload[payload.length - 1].impressions + impressions[i].impressions,
-          timestamp: moment(impressions[i].timestamp).format(formatter).toString()
-        }
+    
+    return impressions.map(record => {
+      return {
+        ...record,
+        timestamp: moment(record.timestamp).format(formatter).toString()
       }
-    }
-
-    return payload
+    })
   }
 
   getImpressionOfSamePlatformAndFormat(impressions, specifiedFormat, specifiedPlatform) {
@@ -225,7 +199,7 @@ class ImpressionAnalytics extends Component {
     }
 
     // Aggregate by the correct time unit
-    lines = lines.map(this.aggregateByTimeUnit.bind(this, this.state.TimeType))
+    lines = lines.map(this.formatTimestamp.bind(this, this.state.TimeType))
 
     return this.getMultipleLines(lines)
   }
