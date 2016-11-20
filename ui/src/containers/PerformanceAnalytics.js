@@ -96,46 +96,57 @@ class PerformanceAnalytics extends Component {
         <div>
           <div style={{ marginBottom: '30px' }}>
             <h2 style={{ textAlign: 'center' }}>Server Status</h2>
+            <h3 style={{ textAlign: 'center', color: '#929292' }}>Select a server to view it's performance</h3>
             <Row center="xs">
               <TreeMap servers={this.props.servers} callback={this.test.bind(this)} datacenter={this.props.datacenter} fetchRequests={this.props.fetchRequests} />
             </Row>
           </div>
-          <div className="intro--section">
-            <h2 className="title">Performance Overview {this.state.selectedTreeMapRegion ? `for ${this.state.selectedTreeMapRegion}` || '' } </h2>
-            <div className="triple--value-prop">
-              <ValueProp bigValue={this.calculateAverageLag()} postText="Average Lag"></ValueProp>
-              <ValueProp bigValue={100} postText="Lag2"></ValueProp>
-              <ValueProp bigValue={100} postText="Lag3"></ValueProp>
-            </div>
-          </div>
-            <Row>
-              <h2>Server: {this.state.selectedTreeMapRegion}</h2>
-              <h3>Last online since: fill this in jack</h3>
+          {
+            this.state.selectedTreeMapRegion ?
+              <div>
+                <div className="intro--section">
+                  <h2 className="title">Performance Overview {`for ${this.state.selectedTreeMapRegion}`} </h2>
+                  <div className="triple--value-prop">
+                    <ValueProp bigValue={this.calculateAverageLag()} postText="Average Lag"></ValueProp>
+                    <ValueProp bigValue={this.calculateAverageResponseTime()} postText="Average response time"></ValueProp>
+                    <ValueProp bigValue={this.calculateAverageNumWarningMessages()} postText="Average warning messages"></ValueProp>
+                  </div>
+                </div>
+                <Row>
+                  <h2>Server: {this.state.selectedTreeMapRegion}</h2>
+                  <h3>Last online since: fill this in jack</h3>
 
-            </Row>
-            <PieGraph data={responseData}/>
-            {
-              this.state.selectedTreeMapRegion ? 
-                <LineGraph
-                  data={this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion]}
-                  XAxis="timestamp"
-                  lines={[{ dataKey: "requests", color: 'rgba(0,188,212,1)' }]} 
-                  width={1500}
-                  height={1000}
-                  dataKey="requests" /> :
-                undefined
-            }
-            {
-              this.state.selectedTreeMapRegion ? 
-                <LineGraph
-                  data={this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion]}
-                  XAxis="timestamp"
-                  lines={[{ dataKey: "warns", color: 'rgba(0,188,212,1)' }]} 
-                  width={1500}
-                  height={1000}
-                  dataKey="warns" /> :
-                undefined
-            }
+                </Row>
+                 <PieGraph data={responseData}/>
+                  {
+                    this.state.selectedTreeMapRegion ? 
+                      <LineGraph
+                        data={this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion]}
+                        XAxis="timestamp"
+                        lines={[{ dataKey: "requests", color: 'rgba(0,188,212,1)' }]} 
+                        width={1500}
+                        height={1000}
+                        dataKey="requests" /> :
+                      undefined
+                  }
+                  {
+                    this.state.selectedTreeMapRegion ? 
+                      <LineGraph
+                        data={this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion]}
+                        XAxis="timestamp"
+                        lines={[{ dataKey: "warns", color: 'rgba(0,188,212,1)' }]} 
+                        width={1500}
+                        height={1000}
+                        dataKey="warns" /> :
+                      undefined
+                  }
+              </div>
+              :
+              undefined
+          }
+          
+
+           
         </div>
       );
     } else {
