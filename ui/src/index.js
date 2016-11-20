@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Router, Route, IndexRoute } from 'react-router'
+import { Router, Route, IndexRoute, IndexRedirect } from 'react-router'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 
 import App from 'components/App'
@@ -18,7 +18,7 @@ let routes =
   >
     <Route path="/" component={App}> 
       
-      <IndexRoute component={ImpressionAnalytics} />
+      <IndexRedirect to="/impressions"/>
       <Route path="impressions" component={ImpressionAnalytics}></Route>
       <Route path="performance" component={PerformanceAnalytics}></Route>
       <Route path="server" component={ServerAnalytics}></Route>

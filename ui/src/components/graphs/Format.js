@@ -15,14 +15,15 @@ const styles = {
 export default class Format extends Component {
   render () {
     return (
-      <div>
-        <fieldset>
-          <legend> <u>Format</u> </legend>
-          <RadioButtonGroup name="Formats" defaultSelected="Video" onChange={this.props.onChange}>
+      <div className="line--field-set">
+          <div className="line--label">
+            <label>Format</label>
+          </div>
+
+          <RadioButtonGroup name="Formats" defaultSelected="video" onChange={this.props.onChange}>
             <RadioButton value="video" label="Video" styles = {styles.radioButton}/>
             <RadioButton value="banner" label="Banner" styles = {styles.radioButton}/>
-            </RadioButtonGroup>
-        </fieldset>
+          </RadioButtonGroup>
       </div>
     )
   }
