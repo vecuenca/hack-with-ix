@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PieGraph from './../components/graphs/PieChart'
 import Row from './../components/Flex/Row'
+import Col from './../components/Flex/Col'
 
 class ImpressionAnalytics extends Component {
 
@@ -55,7 +56,6 @@ class ImpressionAnalytics extends Component {
   }
 
   render() {
-    console.log(this.props);
     if (this.props.impressions && this.props.impressions['NA'] ) {
 
       const platformData = this.formatPlatformImpressions();
@@ -67,6 +67,14 @@ class ImpressionAnalytics extends Component {
           <Row>
             <PieGraph data={platformData}/>
             <PieGraph data={formatData}/>
+            <Col>
+              <TotalSpend 
+                impressions={this.props.impressions}
+              />  
+              <TotalImpressions
+                impressions={this.props.impressions}
+              />
+            </Col>
           </Row>
         </div>
       );
@@ -79,5 +87,58 @@ class ImpressionAnalytics extends Component {
     }
   }
 }
+
+class TotalSpend extends Component {
+  calculateTotalSpend() {
+    var total = 0;
+    this.props.impressions['NA'].forEach(function (i) {
+      total += i.spend;
+    });
+    return total;
+  }
+
+  render() {
+    if (this.props.impressions && this.props.impressions['NA'] ) {
+      const totalSpend = Math.round(this.calculateTotalSpend());
+
+      return (
+        <div>{ totalSpend } total cpm spent</div>
+      );
+    } else {
+      return (
+        <div>
+          <h1>Loading</h1>
+        </div>
+      );
+    }
+  }
+}
+
+class TotalImpressions extends Component {
+  calculateTotalImpressions() {
+    var total = 0;
+    this.props.impressions['NA'].forEach(function(i) {
+      total += i.impressions;
+    });
+    return total;
+  }
+
+  render() {
+    if (this.props.impressions && this.props.impressions['NA'] ) {
+      const totalImpressions = this.calculateTotalImpressions();
+
+      return (
+        <div>{ totalImpressions } total impressions served</div>
+      );
+    } else {
+      return (
+        <div>
+          <h1>Loading</h1>
+        </div>
+      );
+    }
+  }
+}
+
 
 export default ImpressionAnalytics;

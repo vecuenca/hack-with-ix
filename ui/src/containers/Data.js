@@ -13,6 +13,7 @@ class Data extends Component {
         this.fetchServers = this.fetchServers.bind(this)
         this.fetchImpressions = this.fetchImpressions.bind(this) 
         this.fetchPerformance = this.fetchPerformance.bind(this)
+        this.fetchRequests = this.fetchRequests.bind(this)
 
 
         this.state = {
@@ -72,6 +73,13 @@ class Data extends Component {
             })
     }
     
+    fetchRequests(dc, server) {
+        return fetch(`${BASE_URL}requests?dc=${dc}&id=${server}`).then(res => res.json())
+            .then(response => {
+                return response.data
+            })
+    }
+
     render() {
         return (
             <div>
@@ -80,6 +88,7 @@ class Data extends Component {
                         fetchImpressions: this.fetchImpressions,
                         fetchServers: this.fetchServers,
                         fetchPerformance: this.fetchPerformance,
+                        fetchRequests: this.fetchRequests,
                         servers: this.state.servers,
                         impressions: this.state.impressions,
                         performance: this.state.performance

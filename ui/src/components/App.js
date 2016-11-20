@@ -6,6 +6,7 @@ import React, { Component } from 'react'
 
 import { Center } from 'components/Flex'
 
+import TreeMap from './graphs/TreeMap'
 
 import LineType from 'components/graphs/GraphRadioBox'
 import LineGraph from 'components/graphs/LineGraph'
@@ -119,7 +120,7 @@ export default class App extends Component {
   }
 
   render () {
-    if (this.props.impressions && this.props.impressions['NA'] ) {
+    if (this.props.impressions && this.props.impressions['NA']) {
       return (
         <div>
           <LineType onChange={this.graphType.bind(this)}/>
@@ -135,6 +136,7 @@ export default class App extends Component {
             width={1000}
             height={1000}
             dataKey="impressions" />
+            <TreeMap servers={this.props.servers} fetchRequests={this.props.fetchRequests} dc="AS"/>
         </div>
       )
     } else {
