@@ -26,9 +26,9 @@ export default class PieGraph extends Component {
 
   render() {
     return (
-      <PieChart width={1000} height={1000} onMouseEnter={this.onPieEnter}>
+      <PieChart width={500} height={400} onMouseEnter={this.onPieEnter}>
         <Pie
-        data={data}
+        data={this.props.data}
         cx={300} 
         cy={200} 
         labelLine={false}

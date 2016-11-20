@@ -12,15 +12,15 @@ const styles = {
   },
 };
 
-export default class LineType extends Component {
+export default class Format extends Component {
   render () {
     return (
       <div>
         <fieldset>
-          <legend> Line Type </legend>
-          <RadioButtonGroup name="Line Type" defaultSelected="Aggregate">
-            <RadioButton value="Aggregate" label="Aggregate" styles = {styles.radioButton}/>
-            <RadioButton value="Discrete" label="Discrete" styles = {styles.radioButton}/>
+          <legend> <u>Format</u> </legend>
+          <RadioButtonGroup name="Formats" defaultSelected="Video" onChange={this.props.onChange}>
+            <RadioButton value="video" label="Video" styles = {styles.radioButton}/>
+            <RadioButton value="banner" label="Banner" styles = {styles.radioButton}/>
             </RadioButtonGroup>
         </fieldset>
       </div>
