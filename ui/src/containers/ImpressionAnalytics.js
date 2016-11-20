@@ -239,6 +239,7 @@ class ImpressionAnalytics extends Component {
               />
             </div>
           </div>
+          <h2 style={{ textAlign: 'center' }}>Impression over Time</h2>
           <div style={style.graphArea}>
             <LineGraph
                 data={this.getLineGraphData(this.props)}
@@ -254,10 +255,25 @@ class ImpressionAnalytics extends Component {
               <LineType onChange={this.graphType.bind(this)}/>
               <Format onChange={this.formatType.bind(this)}/>
               <TimeFormatPicker onChange={this.timeType.bind(this)} />
+              <div className="line--field-set">
+                <div className="line--label">
+                  <label htmlFor="">Legend</label>
+                </div>
+                <div style={style.legend}>
+                  <div style={style.legendColor1}></div>
+                  <label>Desktop</label>
+                </div>
+                <div style={style.legend}>
+                  <div style={style.legendColor2}></div>
+                  <label htmlFor="">Mobile</label>
+                </div>
+                <div style={style.legend}>
+                  <div style={style.legendColor3}></div>
+                  <label htmlFor="">Application</label>
+                </div>
+              </div>
             </div>
           </div>
-            <PieGraph data={platformData}/>
-            <PieGraph data={formatData}/>
         </div>
       );
     } else {
@@ -276,6 +292,33 @@ const style = {
     display: 'flex',
     flexDirection: 'column',
     minWidth: '200px'
+  },
+  legend: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: '5px',
+    marginBottom: '5px'
+  },
+  legendColor1: {
+    display: 'inline-block',
+    width: '20px',
+    height: '20px',
+    marginRight: '16px',
+    backgroundColor: 'rgba(0,188,212,1)'
+  },
+  legendColor2: {
+    display: 'inline-block',
+    width: '20px',
+    height: '20px',
+    marginRight: '16px',
+    backgroundColor: 'rgba(103,58,183,1)'
+  },
+  legendColor3: {
+    display: 'inline-block',
+    width: '20px',
+    height: '20px',
+    marginRight: '16px',
+    backgroundColor: 'rgb(255, 152, 0)'
   }
 }
 

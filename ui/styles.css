@@ -51,7 +51,7 @@
 .intro--section {
   display: flex;
   margin-top: 60px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   flex-direction: column;
   align-items: center;
 }
@@ -71,4 +71,12 @@
 
 .value-prop {
   flex: 1 1 0%
+}
+
+.outro--section {
+  display: flex;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  flex-direction: row;
+  justify-items: space-around;
 }

@@ -20,7 +20,6 @@ export default class LineGraph extends Component {
               })
             }
             <Brush></Brush>
-            <Legend></Legend>
         </LineChart>
       </ResponsiveContainer>
     )
