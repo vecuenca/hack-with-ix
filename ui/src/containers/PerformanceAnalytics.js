@@ -23,6 +23,8 @@ class PerformanceAnalytics extends Component {
   }
 
   calculateAverageLag() {
+    if (!this.state.selectedTreeMapRegion) return null 
+
     var avgLag = 0;
     var arr = this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion];
     arr.forEach(function (perf) {
@@ -68,18 +70,20 @@ class PerformanceAnalytics extends Component {
 
       return (
         <div>
-          <div className="intro--section">
-            <h2 className="title">Performance Overview</h2>
-            <div className="triple--value-prop">
-              <ValueProp bigValue={100} postText="Lag"></ValueProp>
-              <ValueProp bigValue={100} postText="Lag2"></ValueProp>
-              <ValueProp bigValue={100} postText="Lag3"></ValueProp>
-            </div>
-          </div>
+          <div style={{ marginBottom: '30px' }}>
             <h2 style={{ textAlign: 'center' }}>Server Status</h2>
             <Row center="xs">
               <TreeMap servers={this.props.servers} callback={this.test.bind(this)} datacenter={this.props.datacenter} fetchRequests={this.props.fetchRequests} />
             </Row>
+          </div>
+          <div className="intro--section">
+            <h2 className="title">Performance Overview {this.state.selectedTreeMapRegion ? `for ${this.state.selectedTreeMapRegion}` || '' } </h2>
+            <div className="triple--value-prop">
+              <ValueProp bigValue={this.calculateAverageLag()} postText="Average Lag"></ValueProp>
+              <ValueProp bigValue={100} postText="Lag2"></ValueProp>
+              <ValueProp bigValue={100} postText="Lag3"></ValueProp>
+            </div>
+          </div>
             <Row>
               <h2>Server: {this.state.selectedTreeMapRegion}</h2>
               <h3>Last online since: fill this in jack</h3>
