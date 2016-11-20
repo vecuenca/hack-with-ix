@@ -82,7 +82,7 @@ class Data extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{ width: '100%' }}>
                 {
                     React.cloneElement(this.props.children, {
                         fetchImpressions: this.fetchImpressions,
