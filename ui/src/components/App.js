@@ -6,40 +6,26 @@ import * as TimeUnits from '../constants/TimeUnits'
 
 // Components
 
-import { Center } from 'components/Flex'
-
-import TreeMap from './graphs/TreeMap'
-
-import LineType from 'components/graphs/GraphRadioBox'
-import Format from 'components/graphs/Format'
-import TimeFormatPicker from 'components/graphs/TimeFormatPicker'
-
-import LineGraph from 'components/graphs/LineGraph'
-
 import _ from 'lodash'
-import deepmerge from 'deepmerge'
 
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import moment from 'moment'
 
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import Tabs from '../components/common/Tabs'
+import Tab from '../components/common/Tab'
+
+import FlatButton from 'material-ui/FlatButton';
 
 import withData from '../hocs/withData'
-
-import DashBoard from 'material-ui/svg-icons/action/dashboard'
-import FlatButton from 'material-ui/FlatButton'
-import SvgIcon from 'material-ui/SvgIcon'
 
 class App extends Component {
   constructor () {
     super()
 
+    this.handleDataCenterChange = this.handleDataCenterChange.bind(this)
+
     this.state = {
-      NA: true,
-      Asia: false,
-      Europe: false,
       datacenter: null
     }
   }
@@ -70,23 +56,37 @@ class App extends Component {
       }
   }
 
-  render () {
-    const iconStyles = {
-      marginRight: 24,
-      width: 100,
-      height: "auto"
-    };
+  handleDataCenterChange = value => this.setState({ datacenter: value });
 
+  getDataCenterSelector() {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }} >
+        <FlatButton primary={this.state.datacenter === "NA"} label="NA" onClick={this.handleDataCenterChange.bind(this, "NA")}></FlatButton>
+        <FlatButton primary={this.state.datacenter === "EU"} label="EU" onClick={this.handleDataCenterChange.bind(this, "EU")}></FlatButton>
+        <FlatButton primary={this.state.datacenter === "AS"} label="AS" onClick={this.handleDataCenterChange.bind(this, "AS")}></FlatButton>
+      </div>
+    )
+  }
+
+  onClickImpressions() {
+    console.log("a")
+  }
+
+  onClickPerformance() {
+    console.log("b")
+  }
+
+  render () {
     return (
       <div style={{ width: '100%' }}>
-        <Toolbar style={{ width: '100%' }}>
-          <DashBoard style={iconStyles} />
-          <FlatButton label="North America" primary = {this.state.NA} onClick = {() => {this.handleChange('NA')}}/>
-          <FlatButton label="Asia" primary = {this.state.Asia} onClick = {() => {this.handleChange('AS')}}/>
-          <FlatButton label="Europe" primary = {this.state.Europe} onClick = {() => {this.handleChange("EU")}} />
-        </Toolbar>
+        <div className="app--header">
+          <Tabs value={this.props.location.pathname} rightItem={this.getDataCenterSelector()}>
+            <Tab label="Impressions" value="/impressions" onClick={this.onClickImpressions}  />
+            <Tab label="Server Performance" value="/performance" onClick={this.onClickPerformance} />
+          </Tabs>
+        </div>
         {
-            React.cloneElement(this.props.children, this.props,
+            React.cloneElement(this.props.children, { ...this.props, datacenter: this.state.datacenter },
             this.props.children.props.children)
         }
       </div>

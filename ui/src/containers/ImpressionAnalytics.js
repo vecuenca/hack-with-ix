@@ -33,7 +33,7 @@ class ImpressionAnalytics extends Component {
     platforms.forEach(function(platform) {
       var impressions = 0;
 
-      that.props.impressions['NA'].forEach(function (arr) {
+      that.props.impressions[that.props.datacenter].forEach(function (arr) {
         if (arr.platform === platform) {
           impressions += arr.impressions;
         }
@@ -56,7 +56,7 @@ class ImpressionAnalytics extends Component {
     formats.forEach(function(format) {
       var impressions = 0;
 
-      that.props.impressions['NA'].forEach(function (arr) {
+      that.props.impressions[that.props.datacenter].forEach(function (arr) {
         if (arr.format === format) {
           impressions += arr.impressions;
         }
@@ -237,7 +237,7 @@ class ImpressionAnalytics extends Component {
   }
 
   render() {
-    if (this.props.impressions && this.props.impressions['NA'] ) {
+    if (this.props.impressions && this.props.datacenter && this.props.impressions[this.props.datacenter ] ) {
 
       const platformData = this.formatPlatformImpressions();
       const formatData = this.formatFormatImpressions();
