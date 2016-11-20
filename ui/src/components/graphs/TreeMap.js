@@ -133,7 +133,7 @@ export default class TreeMap extends Component {
               dataKey="size"
               ratio={4/3}
               stroke="BLACK"
-              content={<DemoTreemapItem selected="NA0005" />}
+              content={<DemoTreemapItem selected={this.state.selectedTreeMapRegion} />}
               onClick={this.onNodeClick.bind(this)}
           />
       )
