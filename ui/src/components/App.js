@@ -6,12 +6,14 @@ import React, { Component } from 'react'
 
 import { Center } from 'components/Flex'
 
+import TreeMap from './graphs/TreeMap'
 
 import LineType from 'components/graphs/GraphRadioBox'
 import LineGraph from 'components/graphs/LineGraph'
 import Format from 'components/graphs/Format'
 
-
+import _ from 'lodash'
+import deepmerge from 'deepmerge'
 
 import baseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -41,6 +43,31 @@ export default class App extends Component {
         impressions: acc.length > 0 ? acc[acc.length -1].impressions + impressRecord.impressions : impressRecord.impressions
       }])
     }, [])
+  }
+
+  getMultipleLines(dataSets) {
+    function concatMerge(destinationArray, sourceArray, mergeOptions) {
+      return destinationArray.concat(sourceArray)
+    }
+
+    let lines = _.chain(dataSets)
+      .map(dataSet => {
+        return _.groupBy(dataSet, ({ timestamp }) => timestamp)
+      }) // Array of objects, where object's keys are timestamps
+      .reduce((acc, cur) => {
+        return deepmerge.all([acc, cur], { arrayMerge: concatMerge })
+      }, {})
+      .values()
+      .map(arrayOfImpressionData => {
+        return arrayOfImpressionData.reduce((acc, cur) => ({
+          ...acc,
+          [cur.format + cur.platform]: cur.impressions,
+          timestamp: cur.timestamp
+        }), {})
+      })
+      .value()
+
+      return lines
   }
 
   determineXAxis() {
@@ -79,17 +106,16 @@ export default class App extends Component {
   }
 
   getLineGraphData(props) {
-    const desktopVideos = this
-          .getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.state.Format, 'desktop')
-
-    const aggregatedDesktopVideos = this.getAggregatedImpressions(desktopVideos)
-
-    // console.log(desktopVideos.map(({ timestamp }) => moment(timestamp).toDate()))
+    const lines = [
+      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.state.Format, 'desktop'),
+      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.state.Format, 'mobile'),
+      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.state.Format, 'app')
+    ]
 
     if (this.state.LineType === 'Discrete') {
-      return desktopVideos
+      return this.getMultipleLines(lines)
     } else {
-      return this.getAggregatedImpressions(desktopVideos)
+      return this.getMultipleLines(lines.map(this.getAggregatedImpressions))
     }
   }
 
@@ -101,10 +127,16 @@ export default class App extends Component {
           <Format onChange={this.formatType.bind(this)}/>
           <LineGraph
             data={this.getLineGraphData(this.props)}
+            lines={this.state.Format ? [
+              { dataKey: this.state.Format + 'desktop', color: 'rgba(0,188,212,1)' },
+              { dataKey: this.state.Format + 'mobile', color: 'rgba(103,58,183,1)'},
+              { dataKey: this.state.Format + 'app', color: 'rgba(255,152,0,1)'}
+            ] : []}
             XAxis="timestamp"
             width={1000}
             height={1000}
             dataKey="impressions" />
+            <TreeMap servers={this.props.servers} fetchRequests={this.props.fetchRequests} dc="AS"/>
         </div>
       )
     } else {
