@@ -55,7 +55,6 @@ class ImpressionAnalytics extends Component {
   }
 
   render() {
-    console.log(this.props);
     if (this.props.impressions && this.props.impressions['NA'] ) {
 
       const platformData = this.formatPlatformImpressions();
@@ -67,6 +66,10 @@ class ImpressionAnalytics extends Component {
           <Row>
             <PieGraph data={platformData}/>
             <PieGraph data={formatData}/>
+            <TotalSpend 
+              fetchImpressions={this.props.fetchImpressions}
+              impressions={this.props.impressions}
+            />
           </Row>
         </div>
       );
@@ -77,6 +80,37 @@ class ImpressionAnalytics extends Component {
         </div>
       )
     }
+  }
+}
+
+class TotalSpend extends Component {
+  componentDidMount() {
+    this.props.fetchImpressions('NA');
+  }
+
+  calculateTotalSpend() {
+    var total = 0;
+    this.props.impressions['NA'].forEach(function (i) {
+      total += i.spend;
+    });
+    return total;
+  }
+
+  render() {
+    if (this.props.impressions && this.props.impressions['NA'] ) {
+      const totalSpend = Math.round(this.calculateTotalSpend());
+
+      return (
+        <div>{ totalSpend } total cpm spent</div>
+      );
+    } else {
+      return (
+        <div>
+          <h1>Loading</h1>
+        </div>
+      );
+    }
+
   }
 }
 
