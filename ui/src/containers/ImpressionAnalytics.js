@@ -22,10 +22,10 @@ import * as TimeUnits from '../constants/TimeUnits'
 
 
 class ImpressionAnalytics extends Component {
+
   constructor() {
     super();
   }
-
 
   formatPlatformImpressions () {
     var data = [];
@@ -97,9 +97,9 @@ class ImpressionAnalytics extends Component {
 
   getLineGraphData(props) {
     let lines = [
-      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.props.Format, 'desktop'),
-      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.props.Format, 'mobile'),
-      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.props.Format, 'app')
+      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.props.format, 'desktop'),
+      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.props.format, 'mobile'),
+      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.props.format, 'app')
     ]
 
     // aggregate impressions if needed.
@@ -201,17 +201,13 @@ class ImpressionAnalytics extends Component {
       .value()
 
       return lines
-  }
-
-  
+  }  
 
   render() {
     if (this.props.impressions && this.props.impressions['NA'] ) {
 
       const platformData = this.formatPlatformImpressions();
       const formatData = this.formatFormatImpressions();
-
-      console.log(this.props)
 
       return (
         <div>
@@ -221,10 +217,10 @@ class ImpressionAnalytics extends Component {
             <TimeFormatPicker onChange={this.props.timeType.bind(this)} />
             <LineGraph
               data={this.getLineGraphData(this.props)}
-              lines={this.props.Format ? [
-                { dataKey: this.props.Format + 'desktop', color: 'rgba(0,188,212,1)' },
-                { dataKey: this.props.Format + 'mobile', color: 'rgba(103,58,183,1)'},
-                { dataKey: this.props.Format + 'app', color: 'rgba(255,152,0,1)'}
+              lines={this.props.format ? [
+                { dataKey: this.props.format + 'desktop', color: 'rgba(0,188,212,1)' },
+                { dataKey: this.props.format + 'mobile', color: 'rgba(103,58,183,1)'},
+                { dataKey: this.props.format + 'app', color: 'rgba(255,152,0,1)'}
               ] : []}
               XAxis="timestamp"
               width={1500}
