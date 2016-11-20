@@ -13,7 +13,11 @@ export default class LineGraph extends Component {
           <YAxis/>
           <CartesianGrid strokeDasharray="2 3"/>
           <Tooltip/>
-          <Line type='monotone' dataKey={this.props.dataKey} stroke='#8884d8' fill='#8884d8' />
+          {
+            this.props.lines.map(({ dataKey, color }) => {
+              return <Line type='monotone' dataKey={dataKey} stroke={color} fill={color} />
+            })
+          }
       </LineChart>
     )
   }
