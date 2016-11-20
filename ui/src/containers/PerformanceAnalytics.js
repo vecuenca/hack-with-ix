@@ -5,6 +5,8 @@ import moment from 'moment'
 import TreeMap from './../components/graphs/TreeMap'
 import { Row, Col } from 'react-flexbox-grid'
 
+import ValueProp from '../components/common/ValueProp'
+
 class PerformanceAnalytics extends Component {
 
   constructor(props) {
@@ -57,7 +59,15 @@ class PerformanceAnalytics extends Component {
 
       return (
         <div>
-            <h1>Performance Analytics</h1>
+          <div className="intro--section">
+            <h2 className="title">Performance Overview</h2>
+            <div className="triple--value-prop">
+              <ValueProp bigValue={100} postText="Lag"></ValueProp>
+              <ValueProp bigValue={100} postText="Lag2"></ValueProp>
+              <ValueProp bigValue={100} postText="Lag3"></ValueProp>
+            </div>
+          </div>
+            <h2 style={{ textAlign: 'center' }}>Server Status</h2>
             <Row center="xs">
               <TreeMap servers={this.props.servers} callback={this.test.bind(this)} datacenter={this.props.datacenter} fetchRequests={this.props.fetchRequests} />
             </Row>
