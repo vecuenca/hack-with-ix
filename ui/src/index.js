@@ -9,6 +9,7 @@ import Servers from 'components/Servers'
 
 // Containers
 import ImpressionAnalytics from './containers/ImpressionAnalytics'
+import PerformanceAnalytics from './containers/PerformanceAnalytics'
 import ServerAnalytics from './containers/ServerAnalytics'
 
 let routes =
@@ -23,6 +24,7 @@ let routes =
         component = { Servers }
       />
       <Route path="impressions" component={ImpressionAnalytics}></Route>
+      <Route path="performance" component={PerformanceAnalytics}></Route>
       <Route path="server" component={ServerAnalytics}></Route>
 
     </Route>
