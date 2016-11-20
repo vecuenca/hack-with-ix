@@ -39,24 +39,11 @@ class App extends Component {
     return { muiTheme: getMuiTheme(baseTheme) }
   }
 
-  handleChange(value) {
-      switch (value) {
-        case "NA":
-          this.setState({"NA": true, "Asia": false, "Europe": false, "datacenter": value})
-          break
-        case "EU":
-          this.setState({"NA": false, "Asia": false, "Europe": true, "datacenter": value})
-          break
-        case "AS":
-          this.setState({"NA": false, "Asia": true, "Europe": false, "datacenter": value})
-          break
-        }
-      if (!this.props.servers[value]) {
-        this.props.fetchImpressions(value)
-      }
-  }
-
-  handleDataCenterChange = value => this.setState({ datacenter: value });
+  handleDataCenterChange = value => {
+    this.props.fetchImpressions(value).then(impressions => {
+      this.setState({ datacenter: value })
+    })
+  };
 
   getDataCenterSelector() {
     return (

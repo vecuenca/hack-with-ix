@@ -72,7 +72,9 @@ class ImpressionAnalytics extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchImpressions('NA');
+    if (this.props.datacenter) {
+      this.props.fetchImpressions(this.props.datacenter);
+    }
   }
 
   constructor() {
@@ -199,9 +201,9 @@ class ImpressionAnalytics extends Component {
 
   getLineGraphData(props) {
     let lines = [
-      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.state.Format, 'desktop'),
-      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.state.Format, 'mobile'),
-      this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.state.Format, 'app')
+      this.getImpressionOfSamePlatformAndFormat(props.impressions[props.datacenter], this.state.Format, 'desktop'),
+      this.getImpressionOfSamePlatformAndFormat(props.impressions[props.datacenter], this.state.Format, 'mobile'),
+      this.getImpressionOfSamePlatformAndFormat(props.impressions[props.datacenter], this.state.Format, 'app')
     ]
 
     // aggregate impressions if needed.
