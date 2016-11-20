@@ -33,6 +33,10 @@ module.exports = function (router) {
         res.json({ message: 'OK', data: model.getServerData() });
     }).all(badVerb);
 
+    router.route('/requests').get((req, res, next) => {
+        res.json({ message: 'OK', data: model.getTotalRequests(req.query.dc,req.query.server) });
+    });
+
     router.route('/performance').get((req, res, next) => {
         const q  = req.query;
 

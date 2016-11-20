@@ -28,6 +28,18 @@ module.exports = {
         });
     },
 
+    getTotalRequests: function getTotalRequests(dc, server, from) {
+        var value = 0;
+
+        const items = perf[dc][server];
+
+        items.map((i) => {
+            value += i.requests;
+        })
+
+        return value;
+    },
+
     getAdsData: function getAdsData(dc, from, to) {
         var now = Date.now() - LAG;
 
