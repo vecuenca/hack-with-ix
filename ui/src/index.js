@@ -15,13 +15,9 @@ let routes =
   <Router
     history = { createBrowserHistory() }
   >
-    <Route path="/" component={Data}> 
+    <Route path="/" component={App}> 
       
-      <IndexRoute component={App} />
-      <Route
-        path = "servers"
-        component = { Servers }
-      />
+      <IndexRoute component={ImpressionAnalytics} />
       <Route path="impressions" component={ImpressionAnalytics}></Route>
       <Route path="server" component={ServerAnalytics}></Route>
 

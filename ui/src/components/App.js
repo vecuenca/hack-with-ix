@@ -26,12 +26,13 @@ import moment from 'moment'
 
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
+import withData from '../hocs/withData'
 
 import DashBoard from 'material-ui/svg-icons/action/dashboard'
 import FlatButton from 'material-ui/FlatButton'
 import SvgIcon from 'material-ui/SvgIcon'
 
-export default class App extends Component {
+class App extends Component {
   constructor () {
     super()
 
@@ -68,7 +69,7 @@ export default class App extends Component {
         this.props.fetchImpressions(value)
       }
   }
-  
+
   render () {
     const iconStyles = {
       marginRight: 24,
@@ -85,26 +86,8 @@ export default class App extends Component {
           <FlatButton label="Europe" primary = {this.state.Europe} onClick = {() => {this.handleChange("EU")}} />
         </Toolbar>
         {
-          this.props.impressions && this.state.datacenter && this.props.impressions[this.state.datacenter] ? 
-            <div style={{ width: '100%' }}>
-              <LineType onChange={this.graphType.bind(this)}/>
-              <Format onChange={this.formatType.bind(this)}/>
-              <TimeFormatPicker onChange={this.timeType.bind(this)} />
-              <LineGraph
-                data={this.getLineGraphData(this.props)}
-                lines={this.state.Format ? [
-                  { dataKey: this.state.Format + 'desktop', color: 'rgba(0,188,212,1)' },
-                  { dataKey: this.state.Format + 'mobile', color: 'rgba(103,58,183,1)'},
-                  { dataKey: this.state.Format + 'app', color: 'rgba(255,152,0,1)'}
-                ] : []}
-                XAxis="timestamp"
-                width={1500}
-                height={1000}
-                dataKey="impressions" />
-                <TreeMap servers={this.props.servers} fetchRequests={this.props.fetchRequests} dc="NA"/>
-            </div>
-            :
-            <div>"Loading..."</div>
+            React.cloneElement(this.props.children, this.props,
+            this.props.children.props.children)
         }
       </div>
     )
@@ -114,3 +97,5 @@ export default class App extends Component {
 App.childContextTypes = {
     muiTheme: React.PropTypes.object.isRequired,
 }
+
+export default withData(App)
