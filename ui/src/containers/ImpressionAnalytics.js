@@ -25,6 +25,16 @@ import deepmerge from 'deepmerge'
 
 class ImpressionAnalytics extends Component {
 
+  constructor() {
+    super()
+
+    this.state = {
+      LineType: 'Aggregate',
+      Format: 'video',
+      TimeType: TimeUnits.HOUR
+    }
+  }
+
   formatPlatformImpressions () {
     var data = [];
     const platforms = ['app', 'desktop', 'mobile']
@@ -74,20 +84,6 @@ class ImpressionAnalytics extends Component {
   componentDidMount() {
     if (this.props.datacenter) {
       this.props.fetchImpressions(this.props.datacenter);
-    }
-  }
-
-  constructor() {
-    super()
-
-    this.state = {
-      LineType: null,
-      Format: null,
-      TimeType: TimeUnits.HOUR,
-      NA: true,
-      Asia: false,
-      Europe: false,
-      datacenter: null
     }
   }
 
@@ -217,27 +213,6 @@ class ImpressionAnalytics extends Component {
     return this.getMultipleLines(lines)
   }
 
-  getChildContext() {
-    return { muiTheme: getMuiTheme(baseTheme) }
-  }
-
-  handleChange(value) {
-    switch (value) {
-      case "NA":
-        this.setState({"NA": true, "Asia": false, "Europe": false, "datacenter": value})
-        break
-      case "EU":
-        this.setState({"NA": false, "Asia": false, "Europe": true, "datacenter": value})
-        break
-      case "AS":
-        this.setState({"NA": false, "Asia": true, "Europe": false, "datacenter": value})
-        break
-      }
-    if (!this.props.servers[value]) {
-      this.props.fetchImpressions(value)
-    }
-  }
-
   render() {
     if (this.props.impressions && this.props.datacenter && this.props.impressions[this.props.datacenter ] ) {
 
@@ -246,11 +221,7 @@ class ImpressionAnalytics extends Component {
 
       return (
         <div>
-          <h1>Impression Analytics</h1>
-          <div>
-            <LineType onChange={this.graphType.bind(this)}/>
-            <Format onChange={this.formatType.bind(this)}/>
-            <TimeFormatPicker onChange={this.timeType.bind(this)} />
+          <div style={style.graphArea}>
             <LineGraph
                 data={this.getLineGraphData(this.props)}
                 lines={this.state.Format ? [
@@ -258,23 +229,23 @@ class ImpressionAnalytics extends Component {
                   { dataKey: this.state.Format + 'mobile', color: 'rgba(103,58,183,1)'},
                   { dataKey: this.state.Format + 'app', color: 'rgba(255,152,0,1)'}
                 ] : []}
+                height={800}
                 XAxis="timestamp"
-                width={1500}
-                height={1000}
                 dataKey="impressions" />
+            <div style={style.facets}>
+              <LineType onChange={this.graphType.bind(this)}/>
+              <Format onChange={this.formatType.bind(this)}/>
+              <TimeFormatPicker onChange={this.timeType.bind(this)} />
+            </div>
           </div>
-          <Row>
             <PieGraph data={platformData}/>
             <PieGraph data={formatData}/>
-            <Col>
               <TotalSpend 
                 impressions={this.props.impressions}
               />  
               <TotalImpressions
                 impressions={this.props.impressions}
               />
-            </Col>
-          </Row>
         </div>
       );
     } else {
@@ -282,6 +253,17 @@ class ImpressionAnalytics extends Component {
         <CircularProgress />
       )
     }
+  }
+}
+
+const style = {
+  graphArea: {
+    display: 'flex'
+  },
+  facets: {
+    display: 'flex',
+    flexDirection: 'column',
+    minWidth: '200px'
   }
 }
 

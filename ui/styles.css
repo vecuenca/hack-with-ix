@@ -35,3 +35,14 @@
     display: flex;
     justify-content: space-between;
 }
+
+.line--label {
+  margin-bottom: 7.5px;
+  font-weight: bold;
+}
+
+.line--field-set {
+  display: block;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}

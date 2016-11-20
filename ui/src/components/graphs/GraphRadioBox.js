@@ -15,14 +15,15 @@ const styles = {
 export default class LineType extends Component {
   render () {
     return (
-      <div>
-        <fieldset>
-          <legend> <u>Line Type</u> </legend>
+      <div className="line--field-set">
+          <div className="line--label">
+            <label>Line Type</label>
+          </div>
+
           <RadioButtonGroup name="Line Type" defaultSelected="Aggregate" onChange={this.props.onChange}>
             <RadioButton value="Aggregate" label="Aggregate" styles = {styles.radioButton}/>
             <RadioButton value="Discrete" label="Discrete" styles = {styles.radioButton}/>
           </RadioButtonGroup>
-        </fieldset>
       </div>
     )
   }
