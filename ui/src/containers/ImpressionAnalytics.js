@@ -54,7 +54,7 @@ class ImpressionAnalytics extends Component {
         value: impressions
       });
     });
-      
+
     return data;
   }
 
@@ -77,7 +77,7 @@ class ImpressionAnalytics extends Component {
         value: impressions
       });
     });
-      
+
     return data;
   }
 
@@ -135,7 +135,7 @@ class ImpressionAnalytics extends Component {
 
   aggregateByTimeUnit(timeUnit, impressions) {
     if (impressions.length === 0) return []
-    
+
     let timeSliceDuration = 10,
       formatter = ''
 
@@ -240,12 +240,12 @@ class ImpressionAnalytics extends Component {
           </div>
             <PieGraph data={platformData}/>
             <PieGraph data={formatData}/>
-              <TotalSpend 
-                impressions={this.props.impressions}
-              />  
-              <TotalImpressions
-                impressions={this.props.impressions}
-              />
+            <TotalSpend
+              impressions={this.props.impressions}
+            />
+            <TotalImpressions
+              impressions={this.props.impressions}
+            />
         </div>
       );
     } else {

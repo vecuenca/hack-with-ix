@@ -14,7 +14,7 @@ class TotalImpressions extends Component {
       const totalImpressions = this.calculateTotalImpressions();
 
       return (
-        <div>{ totalImpressions } total impressions served</div>
+        <div>Approximately { Math.round(totalImpressions / 1000000)}M total impressions served!</div>
       );
     } else {
       return (

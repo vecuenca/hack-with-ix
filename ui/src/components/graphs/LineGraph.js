@@ -11,7 +11,7 @@ export default class LineGraph extends Component {
         <LineChart data={this.props.data} syncId={this.props.syncId}
             margin={{top: 10, right: 30, left: 0, bottom: 0}}>
             <XAxis dataKey={this.props.XAxis}/>
-            <YAxis/>
+            <YAxis tickFormatter = {(input) => {return input/1000000 + "M"}}/>
             <CartesianGrid strokeDasharray="2 3"/>
             <Tooltip/>
             {
