@@ -2,10 +2,10 @@
 
 import React, { Component } from 'react'
 import { Treemap } from 'recharts'
-import moment from 'moment'
+import CircularProgressLoad from '../CircularProgressLoad'
 
 
-class DemoTreemapItem extends Component {
+class TreemapItem extends Component {
 
   constructor(props) {
     super(props);
@@ -108,6 +108,7 @@ function formatData(rawData, fetchRequests) {
 }
 
 
+
 export default class TreeMap extends Component {
 
   constructor(props) {
@@ -120,20 +121,21 @@ export default class TreeMap extends Component {
 
   render () {
     if (Object.keys(this.props.servers).length === 0) {
-      return (<h1>Loading Server Health...</h1>)
+      return (<CircularProgressLoad text="Loading Server Health..." />)
     }
     if (this.state != null && this.state.treeMapResults != null) {
+      const resultsData = this.state.treeMapResults.filter((result) => {
+        return result.dc === this.props.dc
+      })
       return (
           <Treemap
               width={730}
               height={250}
-              data={this.state.treeMapResults.filter((result) => {
-                return result.dc === this.props.dc
-              })}
+              data={resultsData}
               dataKey="size"
               ratio={4/3}
               stroke="BLACK"
-              content={<DemoTreemapItem selected={this.state.selectedTreeMapRegion} />}
+              content={<TreemapItem selected={this.state.selectedTreeMapRegion} />}
               onClick={this.onNodeClick.bind(this)}
           />
       )
@@ -143,7 +145,7 @@ export default class TreeMap extends Component {
       })
 
       return (
-        <h1>Loading Server Health...</h1>
+        <CircularProgressLoad text="Loading Server Health..." />
       )
     }
   }
