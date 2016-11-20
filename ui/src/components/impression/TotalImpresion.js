@@ -3,18 +3,21 @@ import React, {Component} from 'react';
 class TotalImpressions extends Component {
   calculateTotalImpressions() {
     var total = 0;
-    this.props.impressions['NA'].forEach(function(i) {
+    this.props.impressions[this.props.datacenter].forEach(function(i) {
       total += i.impressions;
     });
     return total;
   }
 
   render() {
-    if (this.props.impressions && this.props.impressions['NA'] ) {
+    if (this.props.impressions && this.props.impressions[this.props.datacenter] ) {
       const totalImpressions = this.calculateTotalImpressions();
 
       return (
-        <div>Approximately { Math.round(totalImpressions / 1000000)}M total impressions served!</div>
+        <div style={style.root}>
+          <p style={style.bigValue}>{Math.round(totalImpressions / 1000000)}M</p>
+          <p style={style.postText}>total impressions<br /> served</p>
+        </div>
       );
     } else {
       return (
@@ -23,6 +26,28 @@ class TotalImpressions extends Component {
         </div>
       );
     }
+  }
+}
+
+const style = {
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    textAlign: 'center'
+  },
+  preText: {
+    fontSize: '15px',
+    color: '#929292'
+  },
+  postText: {
+    fontSize: '15px',
+    color: '#929292',
+    marginTop: '5px'
+  },
+  bigValue: {
+    fontSize: '40px',
+    margin: 0,
+    color: 'rgba(0,0,0,.8)'
   }
 }
 

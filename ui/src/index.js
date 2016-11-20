@@ -9,7 +9,7 @@ import Servers from 'components/Servers'
 
 // Containers
 import ImpressionAnalytics from './containers/ImpressionAnalytics'
-import ServerAnalytics from './containers/ServerAnalytics'
+import PerformanceAnalytics from './containers/PerformanceAnalytics'
 
 let routes =
   <Router
@@ -19,7 +19,7 @@ let routes =
       
       <IndexRedirect to="/impressions"/>
       <Route path="impressions" component={ImpressionAnalytics}></Route>
-      <Route path="server" component={ServerAnalytics}></Route>
+      <Route path="performance" component={PerformanceAnalytics}></Route>
 
     </Route>
 

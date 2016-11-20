@@ -221,6 +221,19 @@ class ImpressionAnalytics extends Component {
 
       return (
         <div>
+          <div className="intro--section">
+            <h2 className="title">Key Performance Indicators</h2>
+            <div className="triple--value-prop">
+              <TotalSpend
+                impressions={this.props.impressions}
+                datacenter={this.props.datacenter}
+              />
+              <TotalImpressions
+                impressions={this.props.impressions}
+                datacenter={this.props.datacenter}
+              />
+            </div>
+          </div>
           <div style={style.graphArea}>
             <LineGraph
                 data={this.getLineGraphData(this.props)}
@@ -240,12 +253,6 @@ class ImpressionAnalytics extends Component {
           </div>
             <PieGraph data={platformData}/>
             <PieGraph data={formatData}/>
-            <TotalSpend
-              impressions={this.props.impressions}
-            />
-            <TotalImpressions
-              impressions={this.props.impressions}
-            />
         </div>
       );
     } else {

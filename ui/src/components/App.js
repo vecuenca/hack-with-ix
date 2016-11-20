@@ -24,9 +24,11 @@ class App extends Component {
     super()
 
     this.handleDataCenterChange = this.handleDataCenterChange.bind(this)
+    this.onClickImpressions = this.onClickImpressions.bind(this)
+    this.onClickPerformance = this.onClickPerformance.bind(this)
 
     this.state = {
-      datacenter: null
+      datacenter: 'NA'
     }
   }
 
@@ -56,11 +58,11 @@ class App extends Component {
   }
 
   onClickImpressions() {
-    console.log("a")
+    this.props.history.push('/impressions')
   }
 
   onClickPerformance() {
-    console.log("b")
+    this.props.history.push('/performance')
   }
 
   render () {
