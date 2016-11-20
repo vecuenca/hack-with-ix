@@ -75,7 +75,7 @@ class App extends Component {
           </Tabs>
         </div>
         {
-            React.cloneElement(this.props.children, { ...this.props, datacenter: this.state.datacenter },
+            React.cloneElement(this.props.children, { ...this.props, datacenter: this.state.datacenter, selectedTreeMapRegion: this.state.selectedTreeMapRegion },
             this.props.children.props.children)
         }
       </div>

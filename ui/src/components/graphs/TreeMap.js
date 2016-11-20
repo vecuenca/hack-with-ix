@@ -117,6 +117,7 @@ export default class TreeMap extends Component {
 
   onNodeClick(node) {
     this.setState({selectedTreeMapRegion: node.name})
+    this.props.callback(node.name)
   }
 
   render () {
@@ -129,12 +130,13 @@ export default class TreeMap extends Component {
       })
       return (
           <Treemap
-              width={730}
-              height={250}
+              width={1000}
+              height={300}
               data={resultsData}
               dataKey="size"
               ratio={4/3}
               stroke="BLACK"
+              animationDuration={1000}
               content={<TreemapItem selected={this.state.selectedTreeMapRegion} />}
               onClick={this.onNodeClick.bind(this)}
           />
