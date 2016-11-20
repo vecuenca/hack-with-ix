@@ -136,7 +136,7 @@ export default class TreeMap extends Component {
               dataKey="size"
               ratio={4/3}
               stroke="BLACK"
-              animationDuration={1000}
+              animationDuration={500}
               content={<TreemapItem selected={this.state.selectedTreeMapRegion} />}
               onClick={this.onNodeClick.bind(this)}
           />

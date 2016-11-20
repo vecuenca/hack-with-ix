@@ -121,7 +121,7 @@ class PerformanceAnalytics extends Component {
                     <ValueProp bigValue={this.calculateAverageNumWarningMessages()} postText={<span>Average warning<br />messages</span>}></ValueProp>
                   </div>
                 </div>
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
 					<div style={{ flex: '1 1 0%', marginRight: '10px' }}>
 						<h2>Requests over time</h2>
 						<LineGraph
@@ -141,9 +141,10 @@ class PerformanceAnalytics extends Component {
 			                dataKey="warns" />
 					</div>
                 </div>
-
-                <h2>Responses breakdown</h2>
-                <PieGraph data={responseData}/>
+                <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
+	                <h2>Responses breakdown</h2>
+	                <PieGraph data={responseData}/>
+                </div>
               </div>
               :
               undefined
