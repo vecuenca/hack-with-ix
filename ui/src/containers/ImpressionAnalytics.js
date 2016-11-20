@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import PieGraph from './../components/graphs/PieChart'
+import Row from './../components/Flex/Row'
 
 class ImpressionAnalytics extends Component {
+
   formatPlatformImpressions () {
     var data = [];
     const platforms = ['app', 'desktop', 'mobile']
@@ -25,6 +27,29 @@ class ImpressionAnalytics extends Component {
     return data;
   }
 
+  formatFormatImpressions () {
+    var data = [];
+    const formats = ['banner', 'video'];
+
+    var that = this;
+    formats.forEach(function(format) {
+      var impressions = 0;
+
+      that.props.impressions['NA'].forEach(function (arr) {
+        if (arr.format === format) {
+          impressions += arr.impressions;
+        }
+      });
+
+      data.push({
+        name: format,
+        value: impressions
+      });
+    });
+      
+    return data;
+  }
+
   componentDidMount() {
     this.props.fetchImpressions('NA');
   }
@@ -32,13 +57,19 @@ class ImpressionAnalytics extends Component {
   render() {
     console.log(this.props);
     if (this.props.impressions && this.props.impressions['NA'] ) {
-      const data = this.formatPlatformImpressions();
+
+      const platformData = this.formatPlatformImpressions();
+      const formatData = this.formatFormatImpressions();
+
       return (
-          <div>
-            <h1>Impression Analytics</h1>
-            <PieGraph data={data}/>
-          </div>
-      )
+        <div>
+          <h1>Impression Analytics</h1>
+          <Row>
+            <PieGraph data={platformData}/>
+            <PieGraph data={formatData}/>
+          </Row>
+        </div>
+      );
     } else {
       return (
         <div>
