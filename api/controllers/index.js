@@ -34,7 +34,7 @@ module.exports = function (router) {
     }).all(badVerb);
 
     router.route('/requests').get((req, res, next) => {
-        res.json({ message: 'OK', data: model.getTotalRequests(req.query.dc,req.query.server) });
+        res.json({ message: 'OK', data: model.getTotalRequests(req.query.dc,req.query.id) });
     });
 
     router.route('/performance').get((req, res, next) => {

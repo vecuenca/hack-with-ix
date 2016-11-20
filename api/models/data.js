@@ -28,7 +28,7 @@ module.exports = {
         });
     },
 
-    getTotalRequests: function getTotalRequests(dc, server, from) {
+    getTotalRequests: function getTotalRequests(dc, server) {
         var value = 0;
 
         const items = perf[dc][server];

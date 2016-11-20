@@ -74,7 +74,7 @@ class Data extends Component {
     }
     
     fetchRequests(dc, server) {
-        return fetch(`${BASE_URL}requests?dc=${dc}&server=${server}`).then(res => res.json())
+        return fetch(`${BASE_URL}requests?dc=${dc}&id=${server}`).then(res => res.json())
             .then(response => {
                 return response.data
             })
