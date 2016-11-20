@@ -87,10 +87,23 @@ class PerformanceAnalytics extends Component {
 
       //console.log(this.props.performancePage['NA']);
 
+      var onlineTime;
+
       if (this.state.selectedTreeMapRegion) {
         console.log(this.props.performance[this.props.datacenter], '1')
         console.log(this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion], '2')
+        const server = this.props.servers.find((ele) => {
+          return ele.id === this.state.selectedTreeMapRegion;
+        })
+
+        if (server != null) {
+          onlineTime = server.online;
+          console.log(onlineTime);
+        }
       }
+
+
+
 
       return (
         <div>
@@ -113,9 +126,8 @@ class PerformanceAnalytics extends Component {
                   </div>
                 </div>
                 <Row>
-                  <h2>Server: {this.state.selectedTreeMapRegion}</h2>
-                  <h3>Last online since: fill this in jack</h3>
-
+                  	<h2>Server: {this.state.selectedTreeMapRegion}</h2>
+                	<h3>Online since: {moment(onlineTime, "x").fromNow()}</h3>
                 </Row>
                  <PieGraph data={responseData}/>
                   {
@@ -144,9 +156,6 @@ class PerformanceAnalytics extends Component {
               :
               undefined
           }
-          
-
-           
         </div>
       );
     } else {

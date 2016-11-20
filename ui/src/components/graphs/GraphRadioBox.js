@@ -18,7 +18,7 @@ export default class LineType extends Component {
       <div className="line--field-set">
           <div className="line--label">
             <label>Line Type</label>
-          </div>
+        </div>
 
           <RadioButtonGroup name="Line Type" defaultSelected="Aggregate" onChange={this.props.onChange}>
             <RadioButton value="Aggregate" label="Aggregate" styles = {styles.radioButton}/>
