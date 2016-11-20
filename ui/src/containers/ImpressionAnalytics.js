@@ -126,12 +126,28 @@ class ImpressionAnalytics extends Component {
   }
 
   getAggregatedImpressions(impressions) {
-    return impressions.reduce((acc, impressRecord) => {
-      return acc.concat([ {
-        ...impressRecord,
-        impressions: acc.length > 0 ? acc[acc.length -1].impressions + impressRecord.impressions : impressRecord.impressions
-      }])
-    }, [])
+    let aggregatedImpressions = [],
+      sum = 0
+    
+    impressions.forEach((record, i) => {
+      sum += record.impressions
+
+      aggregatedImpressions.push({
+        ...record,
+        impressions: sum
+      })
+    })
+
+    // console.log(aggregatedImpressions)
+
+    return aggregatedImpressions
+
+    // return impressions.reduce((acc, impressRecord) => {
+    //   return acc.concat([ {
+    //     ...impressRecord,
+    //     impressions: acc.length > 0 ? acc[acc.length -1].impressions + impressRecord.impressions : impressRecord.impressions
+    //   }])
+    // }, [])
   }
 
   aggregateByTimeUnit(timeUnit, impressions) {
@@ -286,7 +302,8 @@ class ImpressionAnalytics extends Component {
 
 const style = {
   graphArea: {
-    display: 'flex'
+    display: 'flex',
+    marginBottom: '50px'
   },
   facets: {
     display: 'flex',
