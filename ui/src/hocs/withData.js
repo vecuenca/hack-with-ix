@@ -16,12 +16,14 @@ let withData = WrappedComponent => {
             this.fetchServers = this.fetchServers.bind(this)
             this.fetchImpressions = this.fetchImpressions.bind(this) 
             this.fetchPerformance = this.fetchPerformance.bind(this)
+            this.fetchPerformancePaginate = this.fetchPerformancePaginate.bind(this)
             this.fetchRequests = this.fetchRequests.bind(this)
 
             this.state = {
                 servers: [],
                 impressions: {},
-                performance: {}
+                performance: {},
+                performancePage: {}
             }
         }
 
@@ -74,6 +76,23 @@ let withData = WrappedComponent => {
                     return response.data
                 })
         }
+
+        fetchPerformancePaginate(dc, server, from) {
+         return fetch(`${BASE_URL}performance?dc=${dc}&id=${server}&from=${from}`).then(res => res.json())
+            .then(response => {
+                this.setState({
+                    performancePage: {
+                        ...this.state.performancePage,
+                        [dc]: {
+                            ...this.state.performancePage[dc],
+                            [server]: response.data
+                        }
+                    }
+                })
+
+                return response.data
+            })       
+        }
         
         fetchRequests(dc, server) {
             return fetch(`${BASE_URL}requests?dc=${dc}&id=${server}`).then(res => res.json())
@@ -89,6 +108,7 @@ let withData = WrappedComponent => {
                     fetchImpressions={this.fetchImpressions}
                     fetchServers={this.fetchServers}
                     fetchPerformance={this.fetchPerformance}
+                    fetchPerformancePaginate={this.fetchPerformancePaginate}
                     fetchRequests={this.fetchRequests}
                     servers={this.state.servers}
                     impressions={this.state.impressions}
