@@ -22,6 +22,15 @@ class PerformanceAnalytics extends Component {
     //this.props.fetchPerformancePaginate('NA', 'ALL', moment().add(-7, 'days').valueOf());
   }
 
+  calculateAverageLag() {
+    var avgLag = 0;
+    var arr = this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion];
+    arr.forEach(function (perf) {
+      avgLag += perf.lag;
+    });
+    return avgLag / arr.length;
+  }
+
   getResponseData() {
     var data = [
       {name: '< 0.01s', value: 0},
