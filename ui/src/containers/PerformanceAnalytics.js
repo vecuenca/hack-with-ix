@@ -41,6 +41,18 @@ class PerformanceAnalytics extends Component {
     return avgResp / arr.length;
   }
 
+  calculateAverageNumWarningMessages() {
+    var avgWarnings = 0;
+    if (this.state.selectedTreeMapRegion == null) {
+      return null;
+    }
+    var arr = this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion];
+    arr.forEach(function (perf) {
+      avgWarnings += perf.warns;
+    });
+    return avgWarnings / arr.length;
+  }
+
   getResponseData() {
     var data = [
       {name: '< 0.01s', value: 0},
