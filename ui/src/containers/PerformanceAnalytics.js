@@ -30,7 +30,7 @@ class PerformanceAnalytics extends Component {
     arr.forEach(function (perf) {
       avgLag += perf.lag;
     });
-    return avgLag / arr.length;
+    return Math.round(avgLag / arr.length) + "ms";
   }
 
   calculateAverageResponseTime() {
@@ -42,7 +42,7 @@ class PerformanceAnalytics extends Component {
     arr.forEach(function (perf) {
       avgResp += perf.mean;
     });
-    return avgResp / arr.length;
+    return Math.round((avgResp / arr.length) * 100) / 100;
   }
 
   calculateAverageNumWarningMessages() {
@@ -54,7 +54,7 @@ class PerformanceAnalytics extends Component {
     arr.forEach(function (perf) {
       avgWarnings += perf.warns;
     });
-    return avgWarnings / arr.length;
+    return Math.round(avgWarnings / arr.length);
   }
 
   getResponseData() {
@@ -90,8 +90,6 @@ class PerformanceAnalytics extends Component {
       var onlineTime;
 
       if (this.state.selectedTreeMapRegion) {
-        console.log(this.props.performance[this.props.datacenter], '1')
-        console.log(this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion], '2')
         const server = this.props.servers.find((ele) => {
           return ele.id === this.state.selectedTreeMapRegion;
         })
@@ -102,14 +100,11 @@ class PerformanceAnalytics extends Component {
         }
       }
 
-
-
-
       return (
         <div>
           <div style={{ marginBottom: '30px' }}>
-            <h2 style={{ textAlign: 'center' }}>Server Status</h2>
-            <h3 style={{ textAlign: 'center', color: '#929292' }}>Select a server to view it's performance</h3>
+            <h2 style={{ textAlign: 'center', marginTop: '40px', marginBottom: 0 }}>Server Status</h2>
+            <h3 style={{ textAlign: 'center', color: '#929292', marginTop: '10px' }}>Select a server to view it's performance</h3>
             <Row center="xs">
               <TreeMap servers={this.props.servers} callback={this.test.bind(this)} datacenter={this.props.datacenter} fetchRequests={this.props.fetchRequests} />
             </Row>
@@ -118,40 +113,37 @@ class PerformanceAnalytics extends Component {
             this.state.selectedTreeMapRegion ?
               <div>
                 <div className="intro--section">
-                  <h2 className="title">Performance Overview {`for ${this.state.selectedTreeMapRegion}`} </h2>
+                  <h2 className="title" style={{ marginBottom: 0 }}>Performance Overview {`for ${this.state.selectedTreeMapRegion}`} </h2>
+                  <h3 style={{ color: '#929292', marginTop: '10px' }}>Online since: {moment(onlineTime, "x").fromNow()}</h3>
                   <div className="triple--value-prop">
                     <ValueProp bigValue={this.calculateAverageLag()} postText="Average Lag"></ValueProp>
-                    <ValueProp bigValue={this.calculateAverageResponseTime()} postText="Average response time"></ValueProp>
-                    <ValueProp bigValue={this.calculateAverageNumWarningMessages()} postText="Average warning messages"></ValueProp>
+                    <ValueProp bigValue={this.calculateAverageResponseTime()} postText={<span>Average response<br />time</span>}></ValueProp>
+                    <ValueProp bigValue={this.calculateAverageNumWarningMessages()} postText={<span>Average warning<br />messages</span>}></ValueProp>
                   </div>
                 </div>
-                <Row>
-                  	<h2>Server: {this.state.selectedTreeMapRegion}</h2>
-                	<h3>Online since: {moment(onlineTime, "x").fromNow()}</h3>
-                </Row>
-                 <PieGraph data={responseData}/>
-                  {
-                    this.state.selectedTreeMapRegion ? 
-                      <LineGraph
-                        data={this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion]}
-                        XAxis="timestamp"
-                        lines={[{ dataKey: "requests", color: 'rgba(0,188,212,1)' }]} 
-                        width={1500}
-                        height={1000}
-                        dataKey="requests" /> :
-                      undefined
-                  }
-                  {
-                    this.state.selectedTreeMapRegion ? 
-                      <LineGraph
-                        data={this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion]}
-                        XAxis="timestamp"
-                        lines={[{ dataKey: "warns", color: 'rgba(0,188,212,1)' }]} 
-                        width={1500}
-                        height={1000}
-                        dataKey="warns" /> :
-                      undefined
-                  }
+                <div style={{ display: 'flex' }}>
+					<div style={{ flex: '1 1 0%', marginRight: '10px' }}>
+						<h2>Requests over time</h2>
+						<LineGraph
+							data={this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion]}
+							XAxis="timestamp"
+							lines={[{ dataKey: "requests", color: 'rgba(0,188,212,1)' }]}
+							height={500} 
+							dataKey="requests" />
+					</div>
+					<div style={{ flex: '1 1 0%', marginLeft: '10px' }}>
+						<h2>Warnings over time</h2>
+						<LineGraph
+							data={this.props.performance[this.props.datacenter][this.state.selectedTreeMapRegion]}
+							XAxis="timestamp"
+							lines={[{ dataKey: "warns", color: 'rgba(0,188,212,1)' }]} 
+							height={500}
+			                dataKey="warns" />
+					</div>
+                </div>
+
+                <h2>Responses breakdown</h2>
+                <PieGraph data={responseData}/>
               </div>
               :
               undefined

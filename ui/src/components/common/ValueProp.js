@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 class ValueProp extends Component {
   render() {
-    if (this.props.bigValue) {
+    if (this.props.bigValue || this.props.bigValue === 0) {
       return (
         <div style={style.root}>
           <p style={style.bigValue}>{this.props.bigValue}</p>
