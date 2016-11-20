@@ -53,19 +53,24 @@ export default class App extends Component {
   aggregateByTimeUnit(timeUnit, impressions) {
     if (impressions.length === 0) return []
     
-    let timeSliceDuration = 10
+    let timeSliceDuration = 10,
+      formatter = ''
 
     switch(timeUnit) {
       case TimeUnits.MINUTES:
         timeSliceDuration = 10
+        formatter = 'MMM Do HH:mm '
         break;
       case TimeUnits.HOUR:
         timeSliceDuration = 60
+        formatter = 'MMM Do HH:mm'
         break;
       case TimeUnits.DAY:
         timeSliceDuration = 60 * 24
+        formatter = 'MMM Do'
         break;
       case TimeUnits.WEEK:
+        formatter = 'MMM Do'
         timeSliceDuration = 60 * 24 * 7
         break;
       default:
@@ -92,7 +97,8 @@ export default class App extends Component {
 
         payload[payload.length - 1] = {
           ...payload[payload.length - 1],
-          impressions: payload[payload.length - 1].impressions + impressions[i].impressions
+          impressions: payload[payload.length - 1].impressions + impressions[i].impressions,
+          timestamp: moment(impressions[i].timestamp).format(formatter).toString()
         }  
       }
     }
@@ -178,7 +184,7 @@ export default class App extends Component {
 
     // Aggregate by the correct time unit
     lines = lines.map(this.aggregateByTimeUnit.bind(this, this.state.TimeType))
-    
+
     return this.getMultipleLines(lines)
   }
 

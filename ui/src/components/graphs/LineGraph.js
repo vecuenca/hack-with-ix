@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 
-import { LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Line, Brush } from 'recharts'
+import { LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Line, Brush, Legend } from 'recharts'
 
 
 export default class LineGraph extends Component {
@@ -18,6 +18,8 @@ export default class LineGraph extends Component {
               return <Line type='monotone' dataKey={dataKey} stroke={color} fill={color} />
             })
           }
+          <Brush></Brush>
+          <Legend></Legend>
       </LineChart>
     )
   }
