@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react'
 
+import * as TimeUnits from '../constants/TimeUnits'
+
 // Components
 
 import { Center } from 'components/Flex'
@@ -9,8 +11,10 @@ import { Center } from 'components/Flex'
 import TreeMap from './graphs/TreeMap'
 
 import LineType from 'components/graphs/GraphRadioBox'
-import LineGraph from 'components/graphs/LineGraph'
 import Format from 'components/graphs/Format'
+import TimeFormatPicker from 'components/graphs/TimeFormatPicker'
+
+import LineGraph from 'components/graphs/LineGraph'
 
 import _ from 'lodash'
 import deepmerge from 'deepmerge'
@@ -26,7 +30,8 @@ export default class App extends Component {
 
     this.state = {
       LineType: null,
-      Format: null
+      Format: null,
+      TimeType: TimeUnits.HOUR
     }
   }
 
@@ -43,6 +48,56 @@ export default class App extends Component {
         impressions: acc.length > 0 ? acc[acc.length -1].impressions + impressRecord.impressions : impressRecord.impressions
       }])
     }, [])
+  }
+
+  aggregateByTimeUnit(timeUnit, impressions) {
+    if (impressions.length === 0) return []
+    
+    let timeSliceDuration = 10
+
+    switch(timeUnit) {
+      case TimeUnits.MINUTES:
+        timeSliceDuration = 10
+        break;
+      case TimeUnits.HOUR:
+        timeSliceDuration = 60
+        break;
+      case TimeUnits.DAY:
+        timeSliceDuration = 60 * 24
+        break;
+      case TimeUnits.WEEK:
+        timeSliceDuration = 60 * 24 * 7
+        break;
+      default:
+        console.error("Uh oh... what kind of time unit did you pass in... I don't recognize it")
+    }
+    timeSliceDuration = timeSliceDuration * 60 * 1000 // Translate into ms
+
+    // Grab first timestamp
+    const firstTimeStamp = _.first(impressions).timestamp
+
+    let payload = [impressions[0]],
+      lastTimestamp = firstTimeStamp
+
+    for (var i = 1; i < impressions.length -1; i++) {
+      const currentTimeStamp = impressions[i].timestamp
+      
+      if (currentTimeStamp - lastTimestamp > timeSliceDuration) {
+        lastTimestamp = currentTimeStamp
+        payload.push({
+          ...impressions[i]
+        })
+      } else {
+        let lastImpression = _.last(payload).impressions
+
+        payload[payload.length - 1] = {
+          ...payload[payload.length - 1],
+          impressions: payload[payload.length - 1].impressions + impressions[i].impressions
+        }  
+      }
+    }
+
+    return payload
   }
 
   getMultipleLines(dataSets) {
@@ -86,13 +141,16 @@ export default class App extends Component {
   }
 
   graphType(event, value) {
-    console.log(value)
     this.setState({LineType : value})
   }
 
-  formatType(even, value) {
-    console.log(value)
+  formatType(event, value) {
     this.setState({Format : value})
+  }
+
+  timeType(event, value) {
+    console.log(value)
+    this.setState({ TimeType: value })
   }
 
   componentDidMount() {
@@ -101,22 +159,27 @@ export default class App extends Component {
       that.determineXAxis()
     })
   }
+
   getChildContext() {
     return { muiTheme: getMuiTheme(baseTheme) }
   }
 
   getLineGraphData(props) {
-    const lines = [
+    let lines = [
       this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.state.Format, 'desktop'),
       this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.state.Format, 'mobile'),
       this.getImpressionOfSamePlatformAndFormat(props.impressions['NA'], this.state.Format, 'app')
     ]
 
-    if (this.state.LineType === 'Discrete') {
-      return this.getMultipleLines(lines)
-    } else {
-      return this.getMultipleLines(lines.map(this.getAggregatedImpressions))
+    // aggregate impressions if needed.
+    if (this.state.LineType === 'Aggregate') {
+      lines = lines.map(this.getAggregatedImpressions)
     }
+
+    // Aggregate by the correct time unit
+    lines = lines.map(this.aggregateByTimeUnit.bind(this, this.state.TimeType))
+    
+    return this.getMultipleLines(lines)
   }
 
   render () {
@@ -125,6 +188,7 @@ export default class App extends Component {
         <div>
           <LineType onChange={this.graphType.bind(this)}/>
           <Format onChange={this.formatType.bind(this)}/>
+          <TimeFormatPicker onChange={this.timeType.bind(this)} />
           <LineGraph
             data={this.getLineGraphData(this.props)}
             lines={this.state.Format ? [
@@ -133,7 +197,7 @@ export default class App extends Component {
               { dataKey: this.state.Format + 'app', color: 'rgba(255,152,0,1)'}
             ] : []}
             XAxis="timestamp"
-            width={1000}
+            width={1500}
             height={1000}
             dataKey="impressions" />
             <TreeMap servers={this.props.servers} fetchRequests={this.props.fetchRequests} dc="AS"/>
@@ -147,5 +211,5 @@ export default class App extends Component {
 }
 
 App.childContextTypes = {
-           muiTheme: React.PropTypes.object.isRequired,
-       }
+    muiTheme: React.PropTypes.object.isRequired,
+}
