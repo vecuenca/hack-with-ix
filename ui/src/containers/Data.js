@@ -13,6 +13,7 @@ class Data extends Component {
         this.fetchServers = this.fetchServers.bind(this)
         this.fetchImpressions = this.fetchImpressions.bind(this) 
         this.fetchPerformance = this.fetchPerformance.bind(this)
+        this.fetchPerformancePaginate = this.fetchPerformancePaginate.bind(this)
         this.fetchRequests = this.fetchRequests.bind(this)
 
 
@@ -56,6 +57,23 @@ class Data extends Component {
             })
     }
 
+    fetchPerformancePaginate(dc, server, from) {
+         return fetch(`${BASE_URL}performance?dc=${dc}&id=${server}&from=${from}`).then(res => res.json())
+            .then(response => {
+                this.setState({
+                    performancePage: {
+                        ...this.state.performancePage,
+                        [dc]: {
+                            ...this.state.performancePage[dc],
+                            [server]: response.data
+                        }
+                    }
+                })
+
+                return response.data
+            })       
+    }
+
     fetchPerformance(dc, server) {
         return fetch(`${BASE_URL}performance?dc=${dc}&id=${server}`).then(res => res.json())
             .then(response => {
@@ -88,6 +106,7 @@ class Data extends Component {
                         fetchImpressions: this.fetchImpressions,
                         fetchServers: this.fetchServers,
                         fetchPerformance: this.fetchPerformance,
+                        fetchPerformancePaginate: this.fetchPerformancePaginate,
                         fetchRequests: this.fetchRequests,
                         servers: this.state.servers,
                         impressions: this.state.impressions,

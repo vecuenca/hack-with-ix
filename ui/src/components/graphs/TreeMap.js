@@ -125,7 +125,7 @@ export default class TreeMap extends Component {
     }
     if (this.state != null && this.state.treeMapResults != null) {
       const resultsData = this.state.treeMapResults.filter((result) => {
-        return result.dc === this.props.dc
+        return result.dc === this.props.datacenter
       })
       return (
           <Treemap

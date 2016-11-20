@@ -16,7 +16,7 @@ class TotalImpressions extends Component {
       return (
         <div style={style.root}>
           <p style={style.bigValue}>{Math.round(totalImpressions / 1000000)}M</p>
-          <p style={style.postText}>total impressions<br /> served</p>
+          <p style={style.postText}>Total impressions<br /> served</p>
         </div>
       );
     } else {

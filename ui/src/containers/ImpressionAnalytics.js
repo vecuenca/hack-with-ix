@@ -8,6 +8,7 @@ import * as TimeUnits from '../constants/TimeUnits'
 import CircularProgress from 'material-ui/CircularProgress';
 import TotalSpend from '../components/impression/TotalSpend'
 import TotalImpressions from '../components/impression/TotalImpresion'
+import MostPopularPlatform from '../components/impression/MostPopularPlatform'
 
 import LineType from 'components/graphs/GraphRadioBox'
 import Format from 'components/graphs/Format'
@@ -228,6 +229,10 @@ class ImpressionAnalytics extends Component {
                 impressions={this.props.impressions}
                 datacenter={this.props.datacenter}
               />
+              <MostPopularPlatform
+                impressions={this.props.impressions}
+                datacenter={this.props.datacenter}>
+              </MostPopularPlatform>
               <TotalImpressions
                 impressions={this.props.impressions}
                 datacenter={this.props.datacenter}
